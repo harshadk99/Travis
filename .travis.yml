@@ -4,6 +4,9 @@ language: node_js
 node_js:
   - 0.10.30
 
+before_install:
+  - sudo apt-get update
+
 before_script:
  #- npm link
  #- mkdir -p shippable/codecoverage
