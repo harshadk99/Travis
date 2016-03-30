@@ -1,9 +1,11 @@
 sudo: required
-npm install
 language: node_js
 
 node_js:
   - 0.10.30
+  
+before_install:
+  - npm install
 
 before_script:
  #- npm link
