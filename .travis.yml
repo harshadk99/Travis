@@ -4,8 +4,8 @@ node_js:
   - "iojs"
 
 before_script:
- - npm link
- - mkdir -p shippable/codecoverage
+ #- npm link
+ #- mkdir -p shippable/codecoverage
 
 after_success:
   - echo $TOTO
