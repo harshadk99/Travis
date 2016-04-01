@@ -2,8 +2,10 @@
 language: python
 python: "2.7"
 
+env:
+  - SITE=test.yml
+
 before_install:
-  # Make sure everything's up to date.
   - sudo apt-get update -qq
 
 install:
@@ -11,44 +13,27 @@ install:
   - pip install ansible
 
   # Add ansible.cfg to pick up roles path.
-  - "printf '[defaults]\nroles_path = ../' > ansible.cfg"
+  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
 
 script:
-  # We'll add some commands to test the role here.
-  # Check the role/playbook's syntax
-#sudo: required
-#language: node_js
-#node_js:
+  # Check the role/playbook's syntax.
+  - "ansible-playbook -i tests/inventory tests/$SITE --syntax-check"
 
-#  - "0.12"
+  # Run the role/playbook with ansible-playbook.
+  - "ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo"
 
-#before_script:
- #- npm link
- #- mkdir -p shippable/codecoverage
+  # Travis CI's environment requires one _extra_ run for true idempotence :-/.
+  - "ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo"
 
-#after_success:
- # - echo $TOTO
-  #- git remote -v
-  #- git config --global user.email "harshad.surfer@gmail.com"
-  #- git config --global user.name "harshadk99"
-  #- git checkout master
-  #- npm version patch
-  #- git commit -am "[skip ci] bump version"
-  #- git log --oneline
-  #- git remote set-url origin git@github.com:harshadk99/Travis.git
-  #- git push origin master
-  
-#script: 
- # - #!/usr/bin/env node
-  #- chmod u+x hello.js
-  #- node hello.js
-
-#  - npm run coverage
-
-#  - mv coverage/cobertura-coverage.xml shippable/codecoverage/coverage.xml
-
-#  - mocha test -R mocha-lcov-reporter  && 
-
-#  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js --verbose
-
-#  - cat ./coverage/lcov.info | codeclimate
+  # Run the role/playbook again, checking to make sure it's idempotent.
+  - >
+    ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
+  # Make sure GitLab is running.
+  - >
+    curl --insecure -s -o /dev/null -w "%{http_code}" https://localhost/users/sign_in
+    | grep -q '200'
+    && (echo 'Status code 200 test: pass' && exit 0)
+    || (echo 'Status code 200 test: fail' && exit 1)
