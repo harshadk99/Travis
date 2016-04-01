@@ -20,7 +20,7 @@ after_success:
   - git remote set-url origin git@github.com:harshadk99/Travis.git
   - git push origin master
   
-script: "sudo date"
+script: "sudo node hello.js"
 
 #  - npm run coverage
 
