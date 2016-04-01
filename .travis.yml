@@ -5,12 +5,7 @@ node_js:
   - "0.12"
 
 before_script:
-  -  npm install -g bower
-  -  npm install -g gulp
-  -  npm install phantomjs
-  -  npm install -g karma
-  -  gulp build
-  -  gulp style
+  -  npm install
  #- npm link
  #- mkdir -p shippable/codecoverage
 
@@ -25,6 +20,8 @@ after_success:
   - git log --oneline
   - git remote set-url origin git@github.com:harshadk99/Travis.git
   - git push origin master
+  
+script: "sudo $(which npm) test"
 
 #  - npm run coverage
 
