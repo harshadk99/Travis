@@ -5,6 +5,13 @@ node_js:
   - "0.12"
 
 before_script:
+  -  npm install -g bower
+  -  npm install -g gulp
+  -  npm install phantomjs
+  -  npm install -g karma
+  -  bower install
+  -  gulp build
+  -  gulp style
  #- npm link
  #- mkdir -p shippable/codecoverage
 
@@ -19,9 +26,7 @@ after_success:
   - git log --oneline
   - git remote set-url origin git@github.com:harshadk99/Travis.git
   - git push origin master
-script:  
-  - chmod 777 build.sh
-  - sh build.sh
+
 #  - npm run coverage
 
 #  - mv coverage/cobertura-coverage.xml shippable/codecoverage/coverage.xml
