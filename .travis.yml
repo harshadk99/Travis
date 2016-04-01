@@ -1,29 +1,48 @@
-sudo: required
-language: node_js
+---
+language: python
+python: "2.7"
 
-node_js:
-  - "0.12"
+before_install:
+  # Make sure everything's up to date.
+  - sudo apt-get update -qq
 
-before_script:
+install:
+  # Install Ansible.
+  - pip install ansible
+
+  # Add ansible.cfg to pick up roles path.
+  - "printf '[defaults]\nroles_path = ../' > ansible.cfg"
+
+script:
+  # We'll add some commands to test the role here.
+  # Check the role/playbook's syntax.
+  - ansible-playbook -i Travis/inventory Travis/test.yml --syntax-check
+#sudo: required
+#language: node_js
+#node_js:
+
+#  - "0.12"
+
+#before_script:
  #- npm link
  #- mkdir -p shippable/codecoverage
 
-after_success:
-  - echo $TOTO
-  - git remote -v
-  - git config --global user.email "harshad.surfer@gmail.com"
-  - git config --global user.name "harshadk99"
-  - git checkout master
-  - npm version patch
-  - git commit -am "[skip ci] bump version"
-  - git log --oneline
-  - git remote set-url origin git@github.com:harshadk99/Travis.git
-  - git push origin master
+#after_success:
+ # - echo $TOTO
+  #- git remote -v
+  #- git config --global user.email "harshad.surfer@gmail.com"
+  #- git config --global user.name "harshadk99"
+  #- git checkout master
+  #- npm version patch
+  #- git commit -am "[skip ci] bump version"
+  #- git log --oneline
+  #- git remote set-url origin git@github.com:harshadk99/Travis.git
+  #- git push origin master
   
-script: 
-  - #!/usr/bin/env node
-  - chmod u+x hello.js
-  - node hello.js
+#script: 
+ # - #!/usr/bin/env node
+  #- chmod u+x hello.js
+  #- node hello.js
 
 #  - npm run coverage
 
