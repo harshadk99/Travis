@@ -25,12 +25,9 @@ script:
   # Travis CI's environment requires one _extra_ run for true idempotence :-/.
   - "ansible-playbook -i test/inventory test/test.yml --connection=local --sudo"
 
-# Run the role/playbook again, checking to make sure it's idempotent.
+  # Run the role/playbook again, checking to make sure it's idempotent.
   - >
-  ansible-playbook -i test/inventory test/test.yml --connection=local --sudo
-  | grep -q 'changed=0.*failed=0'
-  && (echo 'Idempotence test: pass' && exit 0)
-  || (echo 'Idempotence test: fail' && exit 1)
-  
-# Request a page via the web server, to make sure it's running and responds.
-- "curl http://localhost/"
+    ansible-playbook -i test/inventory test/test.yml --connection=local --sudo
+    | grep -q 'changed=0.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
