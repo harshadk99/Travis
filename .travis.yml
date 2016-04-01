@@ -11,8 +11,6 @@ before_install:
 install:
   # Install Ansible.
   - pip install ansible
-  - ansible-galaxy install novuso.apache
-  - ignore-errors
 
   # Add ansible.cfg to pick up roles path.
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
