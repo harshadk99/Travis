@@ -20,7 +20,10 @@ after_success:
   - git remote set-url origin git@github.com:harshadk99/Travis.git
   - git push origin master
   
-script: "sudo /usr/local/bin/node hello.js"
+script: 
+  - #!/usr/bin/env node
+  - chmod u+x hello.js
+  - ./hello.js
 
 #  - npm run coverage
 
