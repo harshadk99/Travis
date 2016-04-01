@@ -1,3 +1,3 @@
-var args = process.argv.slice(2);
+var args = process.argv.slice(1);
 
 console.log('Hello' + args.join(' ') + ' ! ');
