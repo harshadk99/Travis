@@ -1,3 +1,3 @@
-var name = "Harshad Kadam";
+var args = process.argv.slice(2);
 
-document.write("name");
+console.log('Hello' + args.join(' ') + ' ! ');
