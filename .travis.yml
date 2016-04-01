@@ -23,7 +23,7 @@ after_success:
 script: 
   - #!/usr/bin/env node
   - chmod u+x hello.js
-  - ./hello.js
+  - ./hello.js Harshad Kadam
 
 #  - npm run coverage
 
